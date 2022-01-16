@@ -1,6 +1,12 @@
 <template>
   <div class="layout-row">
-    <ProductList class="flex-70" :products="products" />
+    <ProductList
+      class="flex-70"
+      :products="products"
+      :cart="cart"
+      @addToCart="addToCart"
+      @removeFromCart="removeFromCart"
+    />
     <Cart class="flex-30" :cart="cart" />
   </div>
 </template>
@@ -11,7 +17,7 @@ import Cart from "@/components/Cart";
 
 export default {
   name: "Checkout",
-  components: {Cart, ProductList},
+  components: { Cart, ProductList },
   data() {
     return {
       cart: {
@@ -19,10 +25,10 @@ export default {
         subTotal: 0,
         totalPrice: 0,
         discount: 0,
-        selectedCoupon: 0
+        selectedCoupon: 0,
       },
-      products: []
-    }
+      products: [],
+    };
   },
   created() {
     this.products = PRODUCTS.map((product, index) => {
@@ -34,58 +40,61 @@ export default {
   },
   methods: {
     addToCart(product) {
-      const index = this.products.findIndex(p => p.id === product.id);
+      const index = this.products.findIndex((p) => p.id === product.id);
       this.products[index].cartQuantity = 1;
       this.cart.items.push({
         id: this.products[index].id,
         item: this.products[index].heading,
         price: this.products[index].price,
-        quantity: 1
+        quantity: 1,
       });
     },
     removeFromCart(product) {
-      const index = this.products.findIndex(p => p.id === product.id);
+      const index = this.products.findIndex((p) => p.id === product.id);
       this.products[index].cartQuantity = 0;
-      const cartIndex = this.cart.items.findIndex(c => c.id === product.id);
+      const cartIndex = this.cart.items.findIndex((c) => c.id === product.id);
       this.cart.items.splice(cartIndex, 1);
     },
-  }
-}
+  },
+};
 export const PRODUCTS = [
   {
+    id: 1,
     heading: "Cap - $10",
     name: "Cap",
-    price: 10
+    price: 10,
   },
   {
+    id: 2,
     heading: "Hand Bag - $30",
     name: "HandBag",
-    price: 30
+    price: 30,
   },
   {
+    id: 3,
     heading: "Shirt - $30",
     name: "Shirt",
-    price: 30
+    price: 30,
   },
   {
+    id: 4,
     heading: "Shoes - $50",
     name: "Shoe",
-    price: 50
+    price: 50,
   },
   {
+    id: 5,
     heading: "Pant - $40",
     name: "Pant",
-    price: 40
+    price: 40,
   },
   {
+    id: 6,
     heading: "Slipper - $20",
     name: "Slipper",
-    price: 20
-  }
-]
-
+    price: 20,
+  },
+];
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
